@@ -1,0 +1,46 @@
+<div class="custom-container">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Formular de înregistrare</h5>
+              <form (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <label for="nume" class="form-label">Nume:</label>
+                  <input type="text" class="form-control" id="nume" name="nume" [(ngModel)]="user.nume" required #numeInput="ngModel">
+                  <div *ngIf="numeInput.touched && numeInput.dirty && !user.nume" class="text-danger">Numele este obligatoriu!</div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="prenume" class="form-label">Prenume:</label>
+                  <input type="text" class="form-control" id="prenume" name="prenume" [(ngModel)]="user.prenume" required #prenumeInput="ngModel">
+                  <div *ngIf="prenumeInput.touched && prenumeInput.dirty && !user.prenume" class="text-danger">Prenumele este obligatoriu!</div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email:</label>
+                  <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" required #emailInput="ngModel">
+                  <div *ngIf="emailInput.touched && emailInput.dirty && !user.email" class="text-danger">Email-ul este obligatoriu!</div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="parola" class="form-label">Parola:</label>
+                  <div class="input-group">
+                    <input [type]="showPassword ? 'text' : 'password'" id="parola" class="form-control" name="parola" [(ngModel)]="user.parola" required autocomplete="current-password" #parolaInput="ngModel">
+                    <button type="button" class="btn btn-outline-secondary" (click)="showPassword = !showPassword">
+                      <i class="bi-eye"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="parolaInput.touched && parolaInput.dirty && !user.parola" class="text-danger">Parola este obligatorie!</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Înregistrare</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

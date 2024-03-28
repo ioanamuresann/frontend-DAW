@@ -1,0 +1,61 @@
+<div class="container">
+  <br />
+  <h3>Destinații disponibile</h3>
+  <br />
+  <div *ngFor="let destinatie of destinatii" class="destinatie-item">
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="m-0">{{ destinatie.titlu }}</p>
+      <div class="d-flex">
+        <button
+          class="btn btn-secondary ms-2"
+          (click)="showCalendar(destinatie)"
+        >
+          Vizualizare rezervări
+        </button>
+        <button
+          class="btn btn-secondary ms-2"
+          (click)="showStatistics(destinatie)"
+        >
+          Statistica
+        </button>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div *ngIf="destinatie.showChart">
+        <div id="main" style="width: 800px; height: 450px"></div>
+      </div>
+      <div *ngIf="destinatie.showCalendar" class="calendar-container">
+        <ngb-datepicker
+          [(ngModel)]="destinatie.selectedDate"
+          (dateSelect)="onDateSelect($event, destinatie)"
+          [dayTemplate]="dateTemplate"
+        ></ngb-datepicker>
+        <ng-template
+          #dateTemplate
+          let-date="date"
+          let-currentMonth="currentMonth"
+        >
+          <div [class.has-reservation]="dateHasReservation(date, destinatie)">
+            {{ date.day }}
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <hr />
+    <div *ngIf="destinatie.showCalendar">
+      <h4>Rezervări:</h4>
+      <ul *ngIf="rezervari.length > 0; else noReservations">
+        <li *ngFor="let rezervare of rezervari">
+          <p>
+            ID: {{ rezervare.id }} - Cost Total: {{ rezervare.cost_total }} lei
+            - Data inceput: {{ rezervare.data_inceput }} - Data sfarsit:
+            {{ rezervare.data_sfarsit }}
+          </p>
+        </li>
+      </ul>
+      <ng-template #noReservations>
+        <p>Nu există încă rezervări pentru această destinație.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

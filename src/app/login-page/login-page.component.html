@@ -1,0 +1,25 @@
+<div class="login-container">
+  <div class="left-container">
+    <img src="../../assets/0f7079b832a8194c17d0de707aaafbbd.jpg" alt="Photo" />
+  </div>
+  <div class="right-container">
+    <div class="login-card">
+      <div class="title">Welcome</div>
+      <div class="sub-title">Login with Email</div>
+
+      <div class="grup">
+        <input type="email" id="email" class="form-control" [(ngModel)]="email" required />
+      </div>
+      <div class="grup">
+        <input type="password" id="password" class="form-control" [(ngModel)]="parola" required />
+      </div>
+      <div class="forgot">Forgot your password?</div>
+      <br />
+      <button class="btn btn-secondary w-50" (click)="login()">Login</button>
+      <hr />
+      <div class="sub-title">Don't have an account?</div>
+      <br />
+      <button type="submit" class="btn btn-secondary w-50" (click)="register()">Register</button>
+    </div>
+  </div>
+</div>
