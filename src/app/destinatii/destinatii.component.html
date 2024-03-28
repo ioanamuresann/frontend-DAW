@@ -1,0 +1,258 @@
+<div class="container">
+  <br />
+  <p class="text-center where-to">Unde?</p>
+  <div class="search-bar d-flex align-items-center">
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Caută după locație..."
+        [(ngModel)]="searchTerm"
+        (input)="searchDestinatii()"
+      />
+    </div>
+  </div>
+
+  <hr />
+  <p class="text-center where-to">Fa o rezervare</p>
+  <select class="form-select mb-3" [(ngModel)]="selectedDestination">
+    <option *ngFor="let destinatie of destinatii" [value]="destinatie.id">
+      {{ destinatie.titlu }}
+    </option>
+  </select>
+
+  <ngb-datepicker
+    class="datepicker"
+    #dp
+    (dateSelect)="onDateSelection($event)"
+    [displayMonths]="1"
+    [dayTemplate]="t"
+    outsideDays="hidden"
+  />
+
+  <ng-template #t let-date let-focused="focused">
+    <span
+      class="custom-day"
+      [class.focused]="focused"
+      [class.range]="isRange(date)"
+      [class.faded]="isHovered(date) || isInside(date)"
+      (mouseenter)="hoveredDate = date"
+      (mouseleave)="hoveredDate = null"
+    >
+      {{ date.day }}
+    </span>
+  </ng-template>
+  <pre>
+From: {{ fromDate.day }}.{{ fromDate.month }}.{{ fromDate.year }} - To:  {{
+      toDate?.day
+    }}.{{ toDate?.month }}.{{ toDate?.year }} </pre
+  >
+  <button class="btn btn-primary" (click)="creareRezervare()">Rezervă</button>
+  <br />
+  <br />
+  <hr />
+  <section id="toateDestinatiile">
+    <h2 class="text-left mb-2 title">Toate Destinațiile</h2>
+    <p class="text-left sub-title">
+      Descoperă lumea cu oferta noastră vastă de destinații. Alege să explorezi
+      locuri noi, să te bucuri de culturi diverse și să creezi amintiri de
+      neuitat. Indiferent dacă îți dorești aventuri exotice, plaje paradisiace
+      sau explorarea orașelor vibrante, toate destinațiile sunt la îndemâna ta.
+      Prin intermediul acestei oferte, îți oferim posibilitatea de a alege
+      dintr-o gamă largă de experiențe de călătorie. Rezervă acum și
+      pregătește-te pentru o călătorie plină de descoperiri și surprize!
+    </p>
+    <div class="row">
+      <div class="col-md-3 mb-4" *ngFor="let destinatie of destinatii">
+        <div class="card">
+          <img
+            [src]="destinatie.imagine"
+            class="card-img-top imagine"
+            alt="{{ destinatie.titlu }}"
+          />
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <p class="info mb-1">
+                <i class="bi bi-geo-alt"></i> {{ destinatie.locatie }}
+              </p>
+            </div>
+            <h5 class="card-title">{{ destinatie.titlu }}</h5>
+            <p class="card-text sub-title mb-1">
+              <i class="bi bi-people"></i> {{ destinatie.numar_locuri }}
+            </p>
+            <p class="card-text mb-1 pret">
+              {{ destinatie.pret_per_noapte }} €/noapte
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br />
+  <hr />
+  <section id="oferta1">
+    <h2 class="text-left mb-2 title">Oferte sub 10% reducere</h2>
+    <div class="row">
+      <div
+        class="col-md-3 mb-4"
+        *ngFor="let destinatie of destinatiiSub10Reducere"
+      >
+        <div class="card">
+          <img [src]="destinatie.imagine" class="card-img-top imagine" />
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <p class="info mb-1">
+                <i class="bi bi-geo-alt"></i> {{ destinatie.locatie }}
+              </p>
+            </div>
+            <h5 class="card-title">{{ destinatie.titlu }}</h5>
+            <p class="card-text sub-title mb-1">
+              <i class="bi bi-people"></i> {{ destinatie.numar_locuri }}
+            </p>
+
+            <p
+              class="card-text mb-1 pret"
+              [ngClass]="{ 'text-danger': destinatie.procent_reducere <= 10 }"
+            >
+              <span
+                *ngIf="
+                  destinatie.procent_reducere !== 0 &&
+                  destinatie.procent_reducere !== 100
+                "
+                class="old-price text-black"
+                >{{ destinatie.pret_per_noapte }}€ --
+              </span>
+              {{
+                destinatie.pret_per_noapte -
+                  destinatie.pret_per_noapte *
+                    (destinatie.procent_reducere / 100)
+              }}
+              €/noapte
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br />
+  <hr />
+  <section id="oferta2">
+    <h2 class="text-left mb-2 title">Oferte peste 50% reducere</h2>
+    <p class="text-left sub-title">
+      Explorează lumea alături de prieteni sau familie cu ofertele noastre de
+      grup. Această ofertă specială îți aduce posibilitatea de a crea amintiri
+      de neuitat alături de cei dragi. Beneficiază de tarife avantajoase și
+      facilități adaptate grupurilor mari. Indiferent dacă sunteți o gașcă de
+      prieteni entuziaști sau o familie numeroasă în căutare de aventuri,
+      ofertele noastre de grup sunt create pentru a transforma călătoria voastră
+      într-o experiență colectivă memorabilă.Rezervă acum și pregătește-te să
+      împărtășești momente unice cu cei dragi!
+    </p>
+    <div class="row">
+      <div
+        class="col-md-3 mb-4"
+        *ngFor="let destinatie of destinatiiPeste50Reducere"
+      >
+        <div class="card">
+          <img
+            [src]="destinatie.imagine"
+            class="card-img-top imagine"
+            alt="{{ destinatie.titlu }}"
+          />
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <p class="info mb-1">
+                <i class="bi bi-geo-alt"></i> {{ destinatie.locatie }}
+              </p>
+            </div>
+            <h5 class="card-title">{{ destinatie.titlu }}</h5>
+            <p class="card-text sub-title mb-1">
+              <i class="bi bi-people"></i> {{ destinatie.numar_locuri }}
+            </p>
+            <p
+              class="card-text mb-1 pret"
+              [ngClass]="{ 'text-danger': destinatie.procent_reducere >= 50 }"
+            >
+              <span
+                *ngIf="
+                  destinatie.procent_reducere !== 0 &&
+                  destinatie.procent_reducere !== 100
+                "
+                class="old-price text-black"
+                >{{ destinatie.pret_per_noapte }}€ --
+              </span>
+              {{
+                destinatie.pret_per_noapte -
+                  destinatie.pret_per_noapte *
+                    (destinatie.procent_reducere / 100)
+              }}
+              €/noapte
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br />
+  <hr />
+  <section id="oferta3">
+    <h2 class="text-left mb-2 title">Oferte 30% reducere</h2>
+    <p class="text-left sub-title">
+      Bucură-te de o experiență extinsă cu oferta noastră specială "5 zile + 1
+      gratis". Descoperă lumea în detaliu și profita de un bonus adițional
+      pentru a-ți prelungi aventura. Această ofertă îți oferă șansa de a explora
+      destinații fascinante, cu șase zile de aventuri în loc de cinci. Fie că
+      alegi să te relaxezi pe plaje însorite, să explorezi orașe pline de
+      istorie sau să te bucuri de peisaje montane spectaculoase, bonusul gratuit
+      îți oferă mai mult timp pentru a crea amintiri de neuitat. Rezervă acum și
+      transformă călătoria ta într-o experiență mai lungă și mai captivantă!
+    </p>
+    <div class="row">
+      <div
+        class="col-md-3 mb-4"
+        *ngFor="let destinatie of destinatii30Reducere"
+      >
+        <div class="card">
+          <img
+            [src]="destinatie.imagine"
+            class="card-img-top imagine"
+            alt="{{ destinatie.titlu }}"
+          />
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <p class="info mb-1">
+                <i class="bi bi-geo-alt"></i> {{ destinatie.locatie }}
+              </p>
+            </div>
+            <h5 class="card-title">{{ destinatie.titlu }}</h5>
+            <p class="card-text sub-title mb-1">
+              <i class="bi bi-people"></i> {{ destinatie.numar_locuri }}
+            </p>
+            <p
+              class="card-text mb-1 pret"
+              [ngClass]="{ 'text-danger': destinatie.procent_reducere >= 30 }"
+            >
+              <span
+                *ngIf="
+                  destinatie.procent_reducere !== 0 &&
+                  destinatie.procent_reducere !== 100
+                "
+                class="old-price text-black"
+                >{{ destinatie.pret_per_noapte }}€ --
+              </span>
+              {{
+                destinatie.pret_per_noapte -
+                  destinatie.pret_per_noapte *
+                    (destinatie.procent_reducere / 100)
+              }}
+              €/noapte
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
